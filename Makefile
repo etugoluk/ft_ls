@@ -4,6 +4,7 @@ NAME = ft_ls
 SRCS = main.c \
 		input.c \
 		output.c \
+		sort_list.c \
 
 LIB = -L libft/ -lft
 OBJ = $(SRCS:.c=.o)

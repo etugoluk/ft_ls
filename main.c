@@ -25,6 +25,7 @@ int		main(int argc, char **argv) {
 			new_dir(".", &ls);
 	}
 	write_to_list(&ls);
+	sort_list(ls.d->files);
 	print(&ls);
 	return (0);
 }
