@@ -12,7 +12,8 @@ void	init(t_ls *ls)
 	ls->t_flag = 0;
 }
 
-int		main(int argc, char **argv) {
+int		main(int argc, char **argv)
+{
 	t_ls ls;
 	int i;
 
@@ -29,7 +30,7 @@ int		main(int argc, char **argv) {
 	write_to_list(&ls);
 	if (!ls.d)
 		return (0);
-	sort_list(ls.d->files);
+	(ls.r_flag) ? sort_list(ls.d->files, asc) : sort_list(ls.d->files, desc);
 	print(&ls);
 	return (0);
 }

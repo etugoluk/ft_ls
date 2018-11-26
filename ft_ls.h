@@ -41,7 +41,9 @@ void	new_dir(char *str, t_ls *ls);
 void	new_flag(char *str, t_ls *ls);
 void	write_to_list(t_ls *ls);
 
-void	sort_list(t_lst	*list);
+int		asc(char *a, char *b);
+int		desc(char *a, char *b);
+void	sort_list(t_lst	*list, int (*cmp)(char*, char*));
 
 void	print(t_ls *ls);
 
