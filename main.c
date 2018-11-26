@@ -1,15 +1,30 @@
 #include "ft_ls.h"
 
-int main(void) {
+void	init(t_ls *ls)
+{
+	ls->d = NULL; 
+	ls->dir = NULL;
+
+	ls->l_flag = 0;
+	ls->R_flag = 0;
+	ls->a_flag = 0;
+	ls->r_flag = 0;
+	ls->t_flag = 0;
+}
+
+int		main(int argc, char **argv) {
 	t_ls ls;
 
-	ls.d = opendir(".");
-	if (ls.d) {
-	while ((ls.dir = readdir(ls.d)) != NULL)
+	init(&ls);
+	if (argc == 1)
+		new_dir(".", &ls);
+	else
 	{
-		ft_printf("%s\n", ls.dir->d_name);
+		read_flags_and_dirs(argc, argv, &ls);
+		if (!ls.d)
+			new_dir(".", &ls);
 	}
-	closedir(ls.d);
-	}
-	return(0);
+	write_to_list(&ls);
+	print(&ls);
+	return (0);
 }

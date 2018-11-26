@@ -2,6 +2,8 @@
 NAME = ft_ls
 
 SRCS = main.c \
+		input.c \
+		output.c \
 
 LIB = -L libft/ -lft
 OBJ = $(SRCS:.c=.o)
@@ -11,10 +13,12 @@ CFLAGS = -Wall -Wextra -Werror
 all: $(NAME)
 
 libft: 
-	make -C ./libft
+	@ make -C ./libft
+	@ echo "Libft done."
 
 $(NAME): libft $(OBJ)
-	gcc $(CFLAGS) -g $(OBJ) -o $(NAME) $(LIB) -I ./
+	@ gcc $(CFLAGS) -g $(OBJ) -o $(NAME) $(LIB) -I ./
+	@ echo "Ft_ls done."
 
 clean:
 	/bin/rm -f $(OBJ)
