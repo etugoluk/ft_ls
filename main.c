@@ -2,7 +2,7 @@
 
 void	init(t_ls *ls)
 {
-	ls->d = NULL; 
+	ls->d = NULL;
 	ls->dir = NULL;
 
 	ls->l_flag = 0;
@@ -14,17 +14,21 @@ void	init(t_ls *ls)
 
 int		main(int argc, char **argv) {
 	t_ls ls;
+	int i;
 
+	i = 1;
 	init(&ls);
-	if (argc == 1)
+
+	while (i < argc && argv[i][0] == '-')
+		new_flag(argv[i++], &ls);
+	if (i >= argc)
 		new_dir(".", &ls);
 	else
-	{
-		read_flags_and_dirs(argc, argv, &ls);
-		if (!ls.d)
-			new_dir(".", &ls);
-	}
+		while (i < argc && argv[i])
+			new_dir(argv[i++], &ls);
 	write_to_list(&ls);
+	if (!ls.d)
+		return (0);
 	sort_list(ls.d->files);
 	print(&ls);
 	return (0);

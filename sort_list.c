@@ -4,7 +4,7 @@ void	sort_list(t_lst	*list)
 {
 	char	*tmp_name;
 	t_lst	*tmp;
-
+	
 	tmp = list;
 	while (list->next)
 	{

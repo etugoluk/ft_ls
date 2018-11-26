@@ -5,7 +5,13 @@ void	new_dir(char *str, t_ls *ls)
 	if (!ls->d)
 	{
 		ls->d = (t_dir *)malloc(sizeof(t_dir));
-		ls->d->dir_name = opendir(str);
+		if (!(ls->d->dir_name = opendir(str)))
+		{
+			ft_printf("ft_ls: %s: %s\n", str, strerror(errno));
+			free(ls->d);
+			ls->d = NULL;
+			return ;
+		}
 		ls->d->str_name = ft_strdup(str);
 		ls->d->files = NULL;
 		ls->d->next = NULL;
@@ -14,7 +20,13 @@ void	new_dir(char *str, t_ls *ls)
 	while (ls->d->next)
 		ls->d = ls->d->next;
 	ls->d->next = (t_dir *)malloc(sizeof(t_dir));
-	ls->d->next->dir_name = opendir(str);
+	if (!(ls->d->next->dir_name = opendir(str)))
+	{
+		ft_printf("ft_ls: %s: %s\n", str, strerror(errno));
+		free(ls->d->next);
+		ls->d->next = NULL;
+		return ;
+	}
 	ls->d->next->str_name = ft_strdup(str);
 	ls->d->next->files = NULL;
 	ls->d->next->next = NULL;
@@ -44,17 +56,6 @@ void	new_flag(char *str, t_ls *ls)
 		}
 		i++;
 	}
-}
-
-void	read_flags_and_dirs(int argc, char **argv, t_ls *ls)
-{
-	int i;
-
-	i = 1;
-	while (i < argc && argv[i][0] == '-')
-		new_flag(argv[i++], ls);
-	while (i < argc && argv[i])
-		new_dir(argv[i++], ls);
 }
 
 void	write_to_list(t_ls *ls)

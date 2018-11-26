@@ -2,6 +2,7 @@
 # define FT_LS_H
 
 #include "libft/libft.h"
+#include <errno.h>
 // #include <sys/types.h>
 #include <dirent.h>
 // #include <sys/stat.h>
@@ -38,7 +39,6 @@ void	init(t_ls *ls);
 
 void	new_dir(char *str, t_ls *ls);
 void	new_flag(char *str, t_ls *ls);
-void	read_flags_and_dirs(int argc, char **argv, t_ls *ls);
 void	write_to_list(t_ls *ls);
 
 void	sort_list(t_lst	*list);
