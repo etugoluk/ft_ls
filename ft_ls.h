@@ -5,12 +5,13 @@
 #include <errno.h>
 // #include <sys/types.h>
 #include <dirent.h>
-// #include <sys/stat.h>
+#include <sys/stat.h>
 // #include <unistd.h>
 
 typedef struct		s_lst
 {
 	char			*name;
+	// char[10]		status; // type and rights of file
 	struct s_lst	*next;
 }					t_lst;
 

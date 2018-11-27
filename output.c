@@ -1,5 +1,36 @@
 #include "ft_ls.h"
 
+void	get_info(char *file)
+{
+	struct stat buf;
+
+	stat(file, &buf);
+	if (S_ISREG(buf.st_mode))
+		ft_printf("-");
+	else if (S_ISDIR(buf.st_mode))
+		ft_printf("d");
+	else if (S_ISCHR(buf.st_mode))
+		ft_printf("c");
+	else if (S_ISBLK(buf.st_mode))
+		ft_printf("b");
+	else if (S_ISFIFO(buf.st_mode))
+		ft_printf("p");
+	else if (S_ISLNK(buf.st_mode))
+		ft_printf("l");
+	else if (S_ISSOCK(buf.st_mode))
+		ft_printf("s");
+
+	ft_printf( (buf.st_mode & S_IRUSR) ? "r" : "-");
+    ft_printf( (buf.st_mode & S_IWUSR) ? "w" : "-");
+    ft_printf( (buf.st_mode & S_IXUSR) ? "x" : "-");
+    ft_printf( (buf.st_mode & S_IRGRP) ? "r" : "-");
+    ft_printf( (buf.st_mode & S_IWGRP) ? "w" : "-");
+    ft_printf( (buf.st_mode & S_IXGRP) ? "x" : "-");
+    ft_printf( (buf.st_mode & S_IROTH) ? "r" : "-");
+    ft_printf( (buf.st_mode & S_IWOTH) ? "w" : "-");
+    ft_printf( (buf.st_mode & S_IXOTH) ? "x " : "- ");
+}
+
 void	print(t_ls *ls)
 {
 	int k;
@@ -12,7 +43,10 @@ void	print(t_ls *ls)
 		while (ls->d->files)
 		{
 			if (ls->d->files->name[0] != '.' || (ls->a_flag))
+			{
+				get_info(ls->d->files->name);
 				ft_printf("%s\n", ls->d->files->name);
+			}
 			ls->d->files = ls->d->files->next;
 		}
 		ls->d = ls->d->next;
