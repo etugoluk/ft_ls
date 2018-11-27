@@ -29,6 +29,7 @@ void	get_info(char *file)
     ft_printf( (buf.st_mode & S_IROTH) ? "r" : "-");
     ft_printf( (buf.st_mode & S_IWOTH) ? "w" : "-");
     ft_printf( (buf.st_mode & S_IXOTH) ? "x " : "- ");
+    ft_printf(" %3ld ", (long) buf.st_nlink);
 }
 
 void	print(t_ls *ls)
