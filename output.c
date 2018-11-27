@@ -30,6 +30,18 @@ void	get_info(char *file)
     ft_printf( (buf.st_mode & S_IWOTH) ? "w" : "-");
     ft_printf( (buf.st_mode & S_IXOTH) ? "x " : "- ");
     ft_printf(" %3ld ", (long) buf.st_nlink);
+
+    struct passwd *pw = getpwuid(buf.st_uid);
+	struct group  *gr = getgrgid(buf.st_gid);
+	ft_printf("%s  %s ", pw->pw_name, gr->gr_name);
+	ft_printf("%6lld ", (long long) buf.st_size);
+	char* time = ctime(&buf.st_mtime);
+	int i = 4;
+	while (i < 16)
+	{
+		ft_putchar(time[i++]);
+	}
+	ft_putchar(' ');
 }
 
 void	print(t_ls *ls)
