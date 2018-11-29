@@ -27,7 +27,7 @@ int		main(int argc, char **argv)
 	else
 		while (i < argc && argv[i])
 			new_dir(argv[i++], &ls);
-	write_to_list(&ls);
+	// write_to_list(&ls);
 	if (!ls.d)
 		return (0);
 	(ls.r_flag) ? sort_list(ls.d->files, asc) : sort_list(ls.d->files, desc);

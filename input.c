@@ -1,5 +1,26 @@
 #include "ft_ls.h"
 
+void	get_files(t_dir *d, t_ls *ls)
+{
+	struct s_lst *tmp_files = NULL;
+
+	if ((ls->dir = readdir(d->dir_name)))
+	{
+		d->files = (t_lst *)malloc(sizeof(t_lst));
+		d->files->name = ft_strdup(ls->dir->d_name);
+		d->files->next = NULL;
+		tmp_files = d->files;
+	}
+	while ((ls->dir = readdir(d->dir_name)))
+	{
+		d->files->next = (t_lst *)malloc(sizeof(t_lst));
+		d->files->next->name = ft_strdup(ls->dir->d_name);
+		d->files->next->next = NULL;
+		d->files = d->files->next;
+	}
+	d->files = tmp_files;
+}
+
 void	new_dir(char *str, t_ls *ls)
 {
 	if (!ls->d)
@@ -13,10 +34,11 @@ void	new_dir(char *str, t_ls *ls)
 			return ;
 		}
 		ls->d->str_name = ft_strdup(str);
-		ls->d->files = NULL;
+		get_files(ls->d, ls);
 		ls->d->next = NULL;
 		return ;
 	}
+	struct s_dir *tmp = ls->d;
 	while (ls->d->next)
 		ls->d = ls->d->next;
 	ls->d->next = (t_dir *)malloc(sizeof(t_dir));
@@ -28,8 +50,9 @@ void	new_dir(char *str, t_ls *ls)
 		return ;
 	}
 	ls->d->next->str_name = ft_strdup(str);
-	ls->d->next->files = NULL;
+	get_files(ls->d->next, ls);
 	ls->d->next->next = NULL;
+	ls->d = tmp;
 }
 
 void	new_flag(char *str, t_ls *ls)
@@ -56,31 +79,4 @@ void	new_flag(char *str, t_ls *ls)
 		}
 		i++;
 	}
-}
-
-void	write_to_list(t_ls *ls)
-{
-	struct s_dir *tmp_d = ls->d;
-	struct s_lst *tmp_files = NULL;
-
-	while (ls->d && ls->d->dir_name)
-	{
-		if ((ls->dir = readdir(ls->d->dir_name)))
-		{
-			ls->d->files = (t_lst *)malloc(sizeof(t_lst));
-			ls->d->files->name = ft_strdup(ls->dir->d_name);
-			ls->d->files->next = NULL;
-			tmp_files = ls->d->files;
-		}
-		while ((ls->dir = readdir(ls->d->dir_name)))
-		{
-			ls->d->files->next = (t_lst *)malloc(sizeof(t_lst));
-			ls->d->files->next->name = ft_strdup(ls->dir->d_name);
-			ls->d->files->next->next = NULL;
-			ls->d->files = ls->d->files->next;
-		}
-		ls->d->files = tmp_files;
-		ls->d = ls->d->next;
-	}
-	ls->d = tmp_d;
 }

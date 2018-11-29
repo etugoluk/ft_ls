@@ -57,7 +57,7 @@ void	print(t_ls *ls)
 		{
 			if (ls->d->files->name[0] != '.' || (ls->a_flag))
 			{
-				get_info(ls->d->files->name);
+				// get_info(ls->d->files->name);
 				ft_printf("%s\n", ls->d->files->name);
 			}
 			ls->d->files = ls->d->files->next;
