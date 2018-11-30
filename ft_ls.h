@@ -14,7 +14,13 @@ typedef struct		s_lst
 {
 	char			*name;
 	char			type;
-	char			rights[9]; // type and rights of file
+	char			rights[10]; // type and rights of file
+	long			links;
+	char			*pw_name;
+	char			*gr_name;
+	long long		size;
+	char			*time;
+	time_t			mtime;
 	struct s_lst	*next;
 }					t_lst;
 
@@ -50,6 +56,7 @@ void	get_files(t_dir *d, t_ls *ls);
 int		asc(char *a, char *b);
 int		desc(char *a, char *b);
 void	sort_list(t_lst	*list, int (*cmp)(char*, char*));
+void	sort_time_list(t_lst *list);
 
 void	print(t_ls *ls);
 

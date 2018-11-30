@@ -29,7 +29,10 @@ int		main(int argc, char **argv)
 			new_dir(argv[i++], &ls);
 	if (!ls.d)
 		return (0);
-	(ls.r_flag) ? sort_list(ls.d->files, asc) : sort_list(ls.d->files, desc);
+	if (ls.t_flag)
+		sort_time_list(ls.d->files);
+	else
+		(ls.r_flag) ? sort_list(ls.d->files, asc) : sort_list(ls.d->files, desc);
 	print(&ls);
 	return (0);
 }
