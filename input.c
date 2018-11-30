@@ -1,5 +1,27 @@
 #include "ft_ls.h"
 
+char	get_type(char *file)
+{
+	struct stat buf;
+
+	stat(file, &buf);
+	if (S_ISREG(buf.st_mode))
+		return ('-');
+	else if (S_ISDIR(buf.st_mode))
+		return ('d');
+	else if (S_ISCHR(buf.st_mode))
+		return ('c');
+	else if (S_ISBLK(buf.st_mode))
+		return ('b');
+	else if (S_ISFIFO(buf.st_mode))
+		return ('p');
+	else if (S_ISLNK(buf.st_mode))
+		return ('l');
+	else if (S_ISSOCK(buf.st_mode))
+		return ('s');
+	return (0);
+}
+
 void	get_files(t_dir *d, t_ls *ls)
 {
 	struct s_lst *tmp_files = NULL;
@@ -8,6 +30,9 @@ void	get_files(t_dir *d, t_ls *ls)
 	{
 		d->files = (t_lst *)malloc(sizeof(t_lst));
 		d->files->name = ft_strdup(ls->dir->d_name);
+		d->files->type = ls->dir->d_type;
+//		d->files->type = get_type(d->files->name);
+//		ft_printf("file-type: %s %c\n", d->files->name, d->files->type);
 		d->files->next = NULL;
 		tmp_files = d->files;
 	}
@@ -15,10 +40,29 @@ void	get_files(t_dir *d, t_ls *ls)
 	{
 		d->files->next = (t_lst *)malloc(sizeof(t_lst));
 		d->files->next->name = ft_strdup(ls->dir->d_name);
+		d->files->next->type = ls->dir->d_type;
+//		d->files->next->type = get_type(d->files->next->name);
+//		ft_printf("file-type: %s %c\n", d->files->next->name, d->files->next->type);
 		d->files->next->next = NULL;
 		d->files = d->files->next;
 	}
 	d->files = tmp_files;
+}
+
+void	recursive(t_lst	*files, t_ls *ls, char *dname)
+{
+	t_lst	*tmp = files;
+	while (files)
+	{
+		if (files->type == 4 && ft_strcmp(files->name,".") && ft_strcmp(files->name,".."))
+		{
+			char *tmpname = ft_strjoin(dname, ft_strjoin("/", files->name));
+			new_dir(tmpname, ls);
+//			new_dir(files->name, ls);
+		}
+		files = files->next;
+	}
+	files = tmp;
 }
 
 void	new_dir(char *str, t_ls *ls)
@@ -36,6 +80,8 @@ void	new_dir(char *str, t_ls *ls)
 		ls->d->str_name = ft_strdup(str);
 		get_files(ls->d, ls);
 		ls->d->next = NULL;
+		if (ls->R_flag)
+			recursive(ls->d->files, ls, ls->d->str_name);
 		return ;
 	}
 	struct s_dir *tmp = ls->d;
@@ -52,6 +98,8 @@ void	new_dir(char *str, t_ls *ls)
 	ls->d->next->str_name = ft_strdup(str);
 	get_files(ls->d->next, ls);
 	ls->d->next->next = NULL;
+	if (ls->R_flag)
+		recursive(ls->d->next->files, ls, ls->d->next->str_name);
 	ls->d = tmp;
 }
 

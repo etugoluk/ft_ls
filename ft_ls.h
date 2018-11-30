@@ -13,6 +13,7 @@
 typedef struct		s_lst
 {
 	char			*name;
+	char			type;
 	// char[10]		status; // type and rights of file
 	struct s_lst	*next;
 }					t_lst;
