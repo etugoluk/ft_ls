@@ -57,6 +57,8 @@ void	print(t_ls *ls)
 		{
 			if (ls->d->files->name[0] != '.' || (ls->a_flag))
 			{
+				if (ls->l_flag)
+					ft_printf("%s ", ls->d->files->rights);
 				// get_info(ls->d->files->name);
 				ft_printf("%s\n", ls->d->files->name);
 			}

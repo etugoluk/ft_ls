@@ -14,7 +14,7 @@ typedef struct		s_lst
 {
 	char			*name;
 	char			type;
-	// char[10]		status; // type and rights of file
+	char			rights[9]; // type and rights of file
 	struct s_lst	*next;
 }					t_lst;
 
@@ -44,6 +44,8 @@ void	init(t_ls *ls);
 void	new_dir(char *str, t_ls *ls);
 void	new_flag(char *str, t_ls *ls);
 void	write_to_list(t_ls *ls);
+
+void	get_files(t_dir *d, t_ls *ls);
 
 int		asc(char *a, char *b);
 int		desc(char *a, char *b);

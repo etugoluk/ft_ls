@@ -1,50 +1,5 @@
 #include "ft_ls.h"
 
-char	get_type(char *file)
-{
-	struct stat buf;
-
-	stat(file, &buf);
-	if (S_ISREG(buf.st_mode))
-		return ('-');
-	else if (S_ISDIR(buf.st_mode))
-		return ('d');
-	else if (S_ISCHR(buf.st_mode))
-		return ('c');
-	else if (S_ISBLK(buf.st_mode))
-		return ('b');
-	else if (S_ISFIFO(buf.st_mode))
-		return ('p');
-	else if (S_ISLNK(buf.st_mode))
-		return ('l');
-	else if (S_ISSOCK(buf.st_mode))
-		return ('s');
-	return (0);
-}
-
-void	get_files(t_dir *d, t_ls *ls)
-{
-	struct s_lst *tmp_files = NULL;
-
-	if ((ls->dir = readdir(d->dir_name)))
-	{
-		d->files = (t_lst *)malloc(sizeof(t_lst));
-		d->files->name = ft_strdup(ls->dir->d_name);
-		d->files->type = ls->dir->d_type;
-		d->files->next = NULL;
-		tmp_files = d->files;
-	}
-	while ((ls->dir = readdir(d->dir_name)))
-	{
-		d->files->next = (t_lst *)malloc(sizeof(t_lst));
-		d->files->next->name = ft_strdup(ls->dir->d_name);
-		d->files->next->type = ls->dir->d_type;
-		d->files->next->next = NULL;
-		d->files = d->files->next;
-	}
-	d->files = tmp_files;
-}
-
 void	recursive(t_lst	*files, t_ls *ls, char *dname)
 {
 	t_lst	*tmp = files;
