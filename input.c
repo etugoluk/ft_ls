@@ -31,8 +31,6 @@ void	get_files(t_dir *d, t_ls *ls)
 		d->files = (t_lst *)malloc(sizeof(t_lst));
 		d->files->name = ft_strdup(ls->dir->d_name);
 		d->files->type = ls->dir->d_type;
-//		d->files->type = get_type(d->files->name);
-//		ft_printf("file-type: %s %c\n", d->files->name, d->files->type);
 		d->files->next = NULL;
 		tmp_files = d->files;
 	}
@@ -41,8 +39,6 @@ void	get_files(t_dir *d, t_ls *ls)
 		d->files->next = (t_lst *)malloc(sizeof(t_lst));
 		d->files->next->name = ft_strdup(ls->dir->d_name);
 		d->files->next->type = ls->dir->d_type;
-//		d->files->next->type = get_type(d->files->next->name);
-//		ft_printf("file-type: %s %c\n", d->files->next->name, d->files->next->type);
 		d->files->next->next = NULL;
 		d->files = d->files->next;
 	}
@@ -56,6 +52,11 @@ void	recursive(t_lst	*files, t_ls *ls, char *dname)
 	{
 		if (files->type == 4 && ft_strcmp(files->name,".") && ft_strcmp(files->name,".."))
 		{
+			if (files->name[0] == '.' && !ls->a_flag)
+			{
+				files = files->next;
+				continue;
+			}
 			char *tmpname = ft_strjoin(dname, ft_strjoin("/", files->name));
 			new_dir(tmpname, ls);
 //			new_dir(files->name, ls);
