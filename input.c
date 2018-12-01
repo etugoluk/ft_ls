@@ -34,7 +34,7 @@ void	new_dir(char *str, t_ls *ls)
 			return ;
 		}
 		ls->d->str_name = ft_strdup(str);
-		get_files(ls->d, ls);
+		ls->d->block_size = get_files(ls->d, ls);
 		ls->d->next = NULL;
 		if (ls->R_flag)
 			recursive(ls->d->files, ls, ls->d->str_name);
@@ -52,7 +52,7 @@ void	new_dir(char *str, t_ls *ls)
 		return ;
 	}
 	ls->d->next->str_name = ft_strdup(str);
-	get_files(ls->d->next, ls);
+	ls->d->next->block_size = get_files(ls->d->next, ls);
 	ls->d->next->next = NULL;
 	if (ls->R_flag)
 		recursive(ls->d->next->files, ls, ls->d->next->str_name);

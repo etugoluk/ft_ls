@@ -9,6 +9,8 @@ void	print(t_ls *ls)
 	{
 		if (k)
 			ft_printf("%s:\n", ls->d->str_name);
+		if (ls->l_flag)
+			ft_printf("total %ld\n", ls->d->block_size);
 		while (ls->d->files)
 		{
 			if (ls->d->files->name[0] != '.' || (ls->a_flag))

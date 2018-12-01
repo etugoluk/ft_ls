@@ -1,6 +1,6 @@
 #include "ft_ls.h"
 
-void	full_info(t_lst *file, char *dname)
+void	full_info(t_lst *file, char *dname, long *total, t_ls *ls)
 {
 	struct stat buf;
 
@@ -30,6 +30,8 @@ void	full_info(t_lst *file, char *dname)
 	file->mtime = buf.st_mtime;
 	file->time = ft_strsub(tmp, 4, ft_strlen(tmp) - 5);
 
+	if (file->name[0] != '.' || (ls->a_flag))
+		*total += buf.st_blocks; 
 	// int i = 4;
 	// while (i < 16)
 	// {
@@ -38,16 +40,17 @@ void	full_info(t_lst *file, char *dname)
 	// ft_putchar(' ');
 }
 
-void	get_files(t_dir *d, t_ls *ls)
+long	get_files(t_dir *d, t_ls *ls)
 {
-	struct s_lst *tmp_files = NULL;
+	struct s_lst	*tmp_files = NULL;
+	long			total = 0;
 
 	if ((ls->dir = readdir(d->dir_name)))
 	{
 		d->files = (t_lst *)malloc(sizeof(t_lst));
 		d->files->name = ft_strdup(ls->dir->d_name);
 		d->files->type = ls->dir->d_type;
-		full_info(d->files, d->str_name);
+		full_info(d->files, d->str_name, &total, ls);
 		d->files->next = NULL;
 		tmp_files = d->files;
 	}
@@ -56,9 +59,10 @@ void	get_files(t_dir *d, t_ls *ls)
 		d->files->next = (t_lst *)malloc(sizeof(t_lst));
 		d->files->next->name = ft_strdup(ls->dir->d_name);
 		d->files->next->type = ls->dir->d_type;
-		full_info(d->files->next, d->str_name);
+		full_info(d->files->next, d->str_name, &total, ls);
 		d->files->next->next = NULL;
 		d->files = d->files->next;
 	}
 	d->files = tmp_files;
+	return total;
 }
