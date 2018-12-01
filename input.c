@@ -38,6 +38,7 @@ void	new_dir(char *str, t_ls *ls)
 		ls->d->next = NULL;
 		if (ls->R_flag)
 			recursive(ls->d->files, ls, ls->d->str_name);
+		closedir(ls->d->dir_name);
 		return ;
 	}
 	struct s_dir *tmp = ls->d;
@@ -56,6 +57,7 @@ void	new_dir(char *str, t_ls *ls)
 	ls->d->next->next = NULL;
 	if (ls->R_flag)
 		recursive(ls->d->next->files, ls, ls->d->next->str_name);
+	closedir(ls->d->next->dir_name);
 	ls->d = tmp;
 }
 
