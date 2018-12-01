@@ -12,7 +12,8 @@ int		desc(t_lst *l1, t_lst *l2)
 
 int		desc_time(t_lst *l1, t_lst *l2)
 {
-	return (l1->mtime < l2->mtime) ? 1 : 0;
+	return (l1->mtime < l2->mtime ||
+		(l1->mtime == l2->mtime && ft_strcmp(l1->name, l2->name) <= 0)) ? 1 : 0;
 }
 
 void	swap(t_lst *l1, t_lst *l2)

@@ -32,7 +32,7 @@ void	full_info(t_lst *file, char *dname, long *total, t_ls *ls, int *max)
 
 	char *tmp = ctime(&buf.st_mtime);
 	file->mtime = buf.st_mtime;
-	file->time = ft_strsub(tmp, 4, 12);
+	file->time = ft_strsub(tmp, 4, 15);
 
 	if (file->name[0] != '.' || (ls->a_flag))
 		*total += buf.st_blocks; 
