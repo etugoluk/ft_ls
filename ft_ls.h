@@ -53,10 +53,10 @@ void	write_to_list(t_ls *ls);
 
 void	get_files(t_dir *d, t_ls *ls);
 
-int		asc(char *a, char *b);
-int		desc(char *a, char *b);
-void	sort_list(t_lst	*list, int (*cmp)(char*, char*));
-void	sort_time_list(t_lst *list);
+int		asc(t_lst *l1, t_lst *l2);
+int		desc(t_lst *l1, t_lst *l2);
+int		desc_time(t_lst *l1, t_lst *l2);
+void	sort_list(t_lst	*list, int (*cmp)(t_lst*, t_lst*));
 
 void	print(t_ls *ls);
 

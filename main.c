@@ -30,7 +30,7 @@ int		main(int argc, char **argv)
 	if (!ls.d)
 		return (0);
 	if (ls.t_flag)
-		sort_time_list(ls.d->files);
+		sort_list(ls.d->files, desc_time);
 	else
 		(ls.r_flag) ? sort_list(ls.d->files, asc) : sort_list(ls.d->files, desc);
 	print(&ls);
