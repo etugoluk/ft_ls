@@ -2,17 +2,17 @@
 
 int		asc(t_lst *l1, t_lst *l2)
 {
-	return (ft_strcmp(l1->name, l2->name) >= 0) ? 1 : 0;
+	return (ft_strcmp(l1->name, l2->name) <= 0) ? 1 : 0;
 }
 
 int		desc(t_lst *l1, t_lst *l2)
 {
-	return (ft_strcmp(l1->name, l2->name) <= 0) ? 1 : 0;
+	return (ft_strcmp(l1->name, l2->name) >= 0) ? 1 : 0;
 }
 
 int		desc_time(t_lst *l1, t_lst *l2)
 {
-	return (l1->mtime > l2->mtime) ? 1 : 0;
+	return (l1->mtime < l2->mtime) ? 1 : 0;
 }
 
 void	swap(t_lst *l1, t_lst *l2)
@@ -90,7 +90,7 @@ void	sort_list(t_lst *list, int (*cmp)(t_lst *, t_lst *))
 	tmp = list;
 	while (list->next)
 	{
-		if (cmp(list, list->next) == 0)
+		if (cmp(list, list->next) == 1)
 		{
 			swap(list, list->next);
 			list = tmp;
