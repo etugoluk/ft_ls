@@ -57,6 +57,7 @@ void	write_to_list(t_ls *ls);
 
 long	get_files(t_dir *d, t_ls *ls);
 void	full_info(t_lst *file, char *dname, long *total, t_ls *ls, int *max);
+char*	full_name(char *dname, char *fname);
 
 int		asc(t_lst *l1, t_lst *l2);
 int		desc(t_lst *l1, t_lst *l2);

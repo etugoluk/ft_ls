@@ -18,17 +18,23 @@ void	print_type(char type)
 		ft_putchar('s');
 }
 
-void	print(t_ls *ls)
+void	print(t_ls *lsls)
 {
 	int k;
 
+	t_ls *ls = lsls;
+	t_dir *tmp_dir = ls->d;
+	t_lst *tmp_lst = ls->d->files;
+
 	k = (ls->d->next) ? 1 : 0;
+
 	while (ls->d && ls->d->dir_name)
 	{
 		if (k)
 			ft_printf("%s:\n", ls->d->str_name);
 		if (ls->l_flag)
 			ft_printf("total %ld\n", ls->d->block_size);
+		tmp_lst = ls->d->files;
 		while (ls->d->files)
 		{
 			if (ls->d->files->name[0] != '.' || (ls->a_flag))
@@ -45,9 +51,12 @@ void	print(t_ls *ls)
 			}
 			ls->d->files = ls->d->files->next;
 		}
+		ls->d->files = tmp_lst;
 		ls->d = ls->d->next;
 		if (ls->d)
 			ft_printf("\n");
 		// closedir(ls.d);
 	}
+	ls->d = tmp_dir;
+	ls->d->files = tmp_lst;
 }

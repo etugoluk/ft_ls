@@ -11,6 +11,7 @@ LIB = -L libft/ -lft
 OBJ = $(SRCS:.c=.o)
 
 CFLAGS = -Wall -Wextra -Werror
+#-fsanitize=address
 
 all: $(NAME)
 

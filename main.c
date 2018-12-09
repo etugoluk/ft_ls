@@ -22,11 +22,13 @@ int		main(int argc, char **argv)
 
 	while (i < argc && argv[i][0] == '-')
 		new_flag(argv[i++], &ls);
+
 	if (i >= argc)
 		new_dir(".", &ls);
 	else
 		while (i < argc && argv[i])
 			new_dir(argv[i++], &ls);
+
 	if (!ls.d)
 		return (0);
 	if (ls.t_flag)
@@ -34,5 +36,6 @@ int		main(int argc, char **argv)
 	else
 		(ls.r_flag) ? sort_list(ls.d->files, asc) : sort_list(ls.d->files, desc);
 	print(&ls);
+	system("leaks ft_ls");
 	return (0);
 }

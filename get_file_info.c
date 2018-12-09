@@ -1,10 +1,30 @@
 #include "ft_ls.h"
 
+char*	full_name(char *dname, char *fname)
+{
+	size_t size = ft_strlen(dname) + ft_strlen(fname) + 1;
+	char *tmpname = (char *)malloc(sizeof(char) * (size + 1));
+	size_t i = 0;
+	while (i < size)
+	{
+		if (i < ft_strlen(dname))
+			tmpname[i] = dname[i];
+		else if (i == ft_strlen(dname))
+			tmpname[i] = '/';
+		else
+			tmpname[i] = fname[i - 1 - ft_strlen(dname)];
+		i++;
+	}
+	tmpname[size] = '\0'; 
+	return tmpname;
+}
+
 void	full_info(t_lst *file, char *dname, long *total, t_ls *ls, int *max)
 {
 	struct stat buf;
 
-	char *tmpname = ft_strjoin(dname, ft_strjoin("/", file->name));
+	char *tmpname = full_name(dname, file->name);
+
 	stat(tmpname, &buf);
 	file->rights[0] = (buf.st_mode & S_IRUSR) ? 'r' : '-';
 	file->rights[1] = (buf.st_mode & S_IWUSR) ? 'w' : '-';
@@ -40,6 +60,8 @@ void	full_info(t_lst *file, char *dname, long *total, t_ls *ls, int *max)
 
 	if (file->name[0] != '.' || (ls->a_flag))
 		*total += buf.st_blocks;
+
+	free(tmpname);
 }
 
 long	get_files(t_dir *d, t_ls *ls)
