@@ -15,7 +15,11 @@ void	full_info(t_lst *file, char *dname, long *total, t_ls *ls, int *max)
 	file->rights[6] = (buf.st_mode & S_IROTH) ? 'r' : '-';
 	file->rights[7] = (buf.st_mode & S_IWOTH) ? 'w' : '-';
 	file->rights[8] = (buf.st_mode & S_IXOTH) ? 'x' : '-';
-	file->rights[9] = '\0';
+
+	if (listxattr(tmpname, NULL, 0, XATTR_NOFOLLOW))
+		file->rights[9] = '@';
+	else
+		file->rights[9] = '\0';
 
 	file->links = buf.st_nlink;
 
@@ -32,16 +36,10 @@ void	full_info(t_lst *file, char *dname, long *total, t_ls *ls, int *max)
 
 	char *tmp = ctime(&buf.st_mtime);
 	file->mtime = buf.st_mtime;
-	file->time = ft_strsub(tmp, 4, 15);
+	file->time = ft_strsub(tmp, 4, 12);
 
 	if (file->name[0] != '.' || (ls->a_flag))
-		*total += buf.st_blocks; 
-	// int i = 4;
-	// while (i < 16)
-	// {
-	// 	ft_putchar(time[i++]);
-	// }
-	// ft_putchar(' ');
+		*total += buf.st_blocks;
 }
 
 long	get_files(t_dir *d, t_ls *ls)

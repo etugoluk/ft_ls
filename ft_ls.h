@@ -2,11 +2,13 @@
 # define FT_LS_H
 
 #include "libft/libft.h"
+#include <unistd.h>
 #include <errno.h>
-// #include <sys/types.h>
-#include <dirent.h>
+#include <sys/types.h>
 #include <sys/stat.h>
-// #include <unistd.h>
+#include <sys/xattr.h>
+#include <sys/acl.h>
+#include <dirent.h>
 #include <pwd.h>
 #include <grp.h>
 
