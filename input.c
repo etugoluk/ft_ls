@@ -79,9 +79,16 @@ void	new_flag(char *str, t_ls *ls)
 			ls->r_flag = 1;
 		else if (str[i] == 't')
 			ls->t_flag = 1;
+		else if (str[i] == 'G')
+			ls->t_flag = 1;
+		else if (str[i] == 'f')
+		{
+			ls->f_flag = 1;
+			ls->a_flag = 1;
+		}
 		else
 		{
-			ft_printf("usage: ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1] [file ...]\n");
+			ft_printf("usage: ls [-afGlrRt] [file ...]\n");
 			return ;
 		}
 		i++;

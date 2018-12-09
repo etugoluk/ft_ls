@@ -23,6 +23,7 @@ typedef struct		s_lst
 	long long		size;
 	char			*time;
 	time_t			mtime;
+	// char			color[6];
 	struct s_lst	*next;
 }					t_lst;
 
@@ -46,6 +47,9 @@ typedef struct		s_ls
 	char			a_flag;
 	char			r_flag;
 	char			t_flag;
+
+	char			f_flag;
+	char			G_flag;
 
 }					t_ls;
 

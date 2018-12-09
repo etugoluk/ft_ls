@@ -1,21 +1,38 @@
 #include "ft_ls.h"
 
-void	print_type(char type)
+void	print_type(t_lst* f)
 {
-	if (type == DT_BLK)
+	if (f->type == DT_BLK)
 		ft_putchar('b');
-	else if (type == DT_CHR)
+	else if (f->type == DT_CHR)
 		ft_putchar('c');
-	else if (type == DT_DIR)
+	else if (f->type == DT_DIR)
 		ft_putchar('d');
-	else if (type == DT_FIFO)
-		ft_putchar('p');
-	else if (type == DT_LNK)
+	else if (f->type == DT_FIFO)
+		ft_putchar('p');	
+	else if (f->type == DT_LNK)
 		ft_putchar('l');
-	else if (type == DT_REG)
+	else if (f->type == DT_REG)
 		ft_putchar('-');
-	else if (type == DT_SOCK)
-		ft_putchar('s');
+	else if (f->type == DT_SOCK)
+		ft_putchar('s');	
+}
+
+void	print_info(t_ls *ls, t_lst* f, int width)
+{
+	if (f->name[0] != '.' || (ls->a_flag))
+	{
+		if (ls->l_flag)
+		{
+			int tmp_arg = (f->rights[9]) > 0 ? 2 : 3;
+
+			print_type(f);
+			ft_printf("%s %*ld %s  %s%*lld %s ", f->rights, tmp_arg, f->links,
+				f->pw_name, f->gr_name, width, f->size, f->time);
+		}
+		// ft_printf("%s%s\n\033[0m", f->color, f->name);
+		ft_printf("%s\n", f->name);
+	}
 }
 
 void	print(t_ls *lsls)
@@ -37,18 +54,7 @@ void	print(t_ls *lsls)
 		tmp_lst = ls->d->files;
 		while (ls->d->files)
 		{
-			if (ls->d->files->name[0] != '.' || (ls->a_flag))
-			{
-				if (ls->l_flag)
-				{
-					int tmp_arg = (ls->d->files->rights[9]) > 0 ? 2 : 3;
-
-					print_type(ls->d->files->type);
-					ft_printf("%s %*ld %s  %s%*lld %s ", ls->d->files->rights, tmp_arg, ls->d->files->links,
-						ls->d->files->pw_name, ls->d->files->gr_name, ls->d->digits_max + 2, ls->d->files->size, ls->d->files->time);
-				}
-				ft_printf("%s\n", ls->d->files->name);
-			}
+			print_info(ls, ls->d->files, ls->d->digits_max + 2);
 			ls->d->files = ls->d->files->next;
 		}
 		ls->d->files = tmp_lst;

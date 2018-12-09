@@ -61,6 +61,8 @@ void	full_info(t_lst *file, char *dname, long *total, t_ls *ls, int *max)
 	if (file->name[0] != '.' || (ls->a_flag))
 		*total += buf.st_blocks;
 
+	// ft_strcpy(file->color, "\033[0m");
+
 	free(tmpname);
 }
 
