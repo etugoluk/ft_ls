@@ -29,7 +29,7 @@ char*	full_name(char *dname, char *fname)
 			tmpname[i] = fname[i - 1 - ft_strlen(dname)];
 		i++;
 	}
-	tmpname[size] = '\0'; 
+	tmpname[size] = '\0';
 	return tmpname;
 }
 

@@ -33,7 +33,7 @@ typedef struct		s_dir
 	char			*str_name;
 	struct s_lst	*files; //list of files and directories which we should print
 	long			block_size;
-	int			digits_max;
+	int				digits_max;
 	struct s_dir	*next;
 }					t_dir;
 

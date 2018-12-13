@@ -12,10 +12,9 @@ void	recursive(t_lst	*files, t_ls *ls, char *dname)
 				files = files->next;
 				continue;
 			}
-			// char *tmpname = ft_strjoin(dname, ft_strjoin("/", files->name));
 			char *tmpname = full_name(dname, files->name);
 			new_dir(tmpname, ls);
-//			new_dir(files->name, ls);
+			free(tmpname);
 		}
 		files = files->next;
 	}

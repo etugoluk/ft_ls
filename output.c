@@ -34,6 +34,20 @@ void	print_info(t_ls *ls, t_lst* f, int width)
 	}
 }
 
+void	clear_dir(t_dir *d)
+{
+	free(d->str_name);
+
+	while (d->files)
+	{
+		free(d->files->name);
+		free(d->files->time);
+		free(d->files);
+		d->files = d->files->next;
+	}
+	// free(d);
+}
+
 void	print(t_ls *lsls)
 {
 	int k;
@@ -57,10 +71,10 @@ void	print(t_ls *lsls)
 			ls->d->files = ls->d->files->next;
 		}
 		ls->d->files = tmp_lst;
+		clear_dir(ls->d);
 		ls->d = ls->d->next;
 		if (ls->d)
 			ft_printf("\n");
-		// closedir(ls.d);
 	}
 	ls->d = tmp_dir;
 	ls->d->files = tmp_lst;
