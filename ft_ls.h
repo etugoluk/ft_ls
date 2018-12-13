@@ -16,14 +16,14 @@ typedef struct		s_lst
 {
 	char			*name;
 	char			type;
-	char			rights[10]; // type and rights of file
+	char			rights[11]; // type and rights of file
 	long			links;
 	char			*pw_name;
 	char			*gr_name;
 	long long		size;
 	char			*time;
 	time_t			mtime;
-	// char			color[6];
+	char			*color;
 	struct s_lst	*next;
 }					t_lst;
 

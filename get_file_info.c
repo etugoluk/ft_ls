@@ -1,5 +1,19 @@
 #include "ft_ls.h"
 
+char*	get_color(char type, char *rights)
+{
+	if (type == DT_DIR)
+		return "[34m";
+	else if (type == DT_LNK)
+		return "[35m";
+	else if ((type == DT_BLK) || (type == DT_CHR))
+		return "[33m";
+	else if (ft_strchr(rights, 'x'))
+		return "[31m";
+	else
+		return "[0m";
+}
+
 char*	full_name(char *dname, char *fname)
 {
 	size_t size = ft_strlen(dname) + ft_strlen(fname) + 1;
@@ -40,6 +54,7 @@ void	full_info(t_lst *file, char *dname, long *total, t_ls *ls, int *max)
 		file->rights[9] = '@';
 	else
 		file->rights[9] = '\0';
+	file->rights[10] = '\0'; //maybe better solution?
 
 	file->links = buf.st_nlink;
 
@@ -61,7 +76,7 @@ void	full_info(t_lst *file, char *dname, long *total, t_ls *ls, int *max)
 	if (file->name[0] != '.' || (ls->a_flag))
 		*total += buf.st_blocks;
 
-	// ft_strcpy(file->color, "\033[0m");
+	file->color = (ls->G_flag) ? get_color(file->type, file->rights) : "[0m";
 
 	free(tmpname);
 }

@@ -27,6 +27,7 @@ void	swap(t_lst *l1, t_lst *l2)
 	long long	size;
 	char		*time;
 	time_t		mtime;
+	char		*color;
 
 	name = l1->name;
 	l1->name = l2->name;
@@ -81,6 +82,10 @@ void	swap(t_lst *l1, t_lst *l2)
 	mtime = l1->mtime;
 	l1->mtime = l2->mtime;
 	l2->mtime = mtime;
+
+	color = l1->color;
+	l1->color = l2->color;
+	l2->color = color;
 
 }
 

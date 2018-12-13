@@ -15,7 +15,7 @@ void	print_type(t_lst* f)
 	else if (f->type == DT_REG)
 		ft_putchar('-');
 	else if (f->type == DT_SOCK)
-		ft_putchar('s');	
+		ft_putchar('s');
 }
 
 void	print_info(t_ls *ls, t_lst* f, int width)
@@ -30,8 +30,7 @@ void	print_info(t_ls *ls, t_lst* f, int width)
 			ft_printf("%s %*ld %s  %s%*lld %s ", f->rights, tmp_arg, f->links,
 				f->pw_name, f->gr_name, width, f->size, f->time);
 		}
-		// ft_printf("%s%s\n\033[0m", f->color, f->name);
-		ft_printf("%s\n", f->name);
+		ft_printf("\033%s%s\n\033[0m", f->color, f->name);
 	}
 }
 

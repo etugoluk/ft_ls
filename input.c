@@ -80,7 +80,7 @@ void	new_flag(char *str, t_ls *ls)
 		else if (str[i] == 't')
 			ls->t_flag = 1;
 		else if (str[i] == 'G')
-			ls->t_flag = 1;
+			ls->G_flag = 1;
 		else if (str[i] == 'f')
 		{
 			ls->f_flag = 1;
