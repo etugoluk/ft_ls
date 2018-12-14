@@ -11,7 +11,8 @@ void	init(t_ls *ls)
 	ls->r_flag = 0;
 	ls->t_flag = 0;
 	ls->f_flag = 0;
-
+	ls->G_flag = 0;
+	ls->col_flag = 0;
 }
 
 int		main(int argc, char **argv)
@@ -38,6 +39,6 @@ int		main(int argc, char **argv)
 	else if (!ls.f_flag)
 		(ls.r_flag) ? sort_list(ls.d->files, asc) : sort_list(ls.d->files, desc);
 	print(&ls);
-	system("leaks ft_ls");
+	// system("leaks ft_ls");
 	return (0);
 }

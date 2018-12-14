@@ -34,6 +34,7 @@ typedef struct		s_dir
 	struct s_lst	*files; //list of files and directories which we should print
 	long			block_size;
 	int				digits_max;
+	int				count;
 	struct s_dir	*next;
 }					t_dir;
 
@@ -50,6 +51,7 @@ typedef struct		s_ls
 
 	char			f_flag;
 	char			G_flag;
+	char			col_flag;
 
 }					t_ls;
 
@@ -60,7 +62,7 @@ void	new_flag(char *str, t_ls *ls);
 void	write_to_list(t_ls *ls);
 
 long	get_files(t_dir *d, t_ls *ls);
-void	full_info(t_lst *file, char *dname, long *total, t_ls *ls, int *max);
+void	full_info(t_lst *file, char *dname, long *total, t_ls *ls, int *max, int *count);
 char*	full_name(char *dname, char *fname);
 
 int		asc(t_lst *l1, t_lst *l2);

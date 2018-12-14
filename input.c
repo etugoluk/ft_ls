@@ -68,7 +68,9 @@ void	new_flag(char *str, t_ls *ls)
 	i = 1;
 	while (str[i])
 	{
-		if (str[i] == 'l')
+		if ((str[i] > 48) && (str[i] < 53) && (!ft_strchr(str,'l')))
+			ls->col_flag = str[i] - 48;
+		else if (str[i] == 'l')
 			ls->l_flag = 1;
 		else if (str[i] == 'R')
 			ls->R_flag = 1;

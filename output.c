@@ -18,7 +18,7 @@ void	print_type(t_lst* f)
 		ft_putchar('s');
 }
 
-void	print_info(t_ls *ls, t_lst* f, int width)
+void	print_info(t_ls *ls, t_lst* f, int width, int *k)
 {
 	if (f->name[0] != '.' || (ls->a_flag))
 	{
@@ -30,7 +30,16 @@ void	print_info(t_ls *ls, t_lst* f, int width)
 			ft_printf("%s %*ld %s  %s%*lld %s ", f->rights, tmp_arg, f->links,
 				f->pw_name, f->gr_name, width, f->size, f->time);
 		}
-		ft_printf("\033%s%s\n\033[0m", f->color, f->name);
+		if ((!ls->col_flag) ||
+			((ls->col_flag) && (*k % ls->col_flag == ls->col_flag - 1)))
+		{
+			ft_printf("\033%s%s\n\033[0m", f->color, f->name);
+		}
+		else if (ls->col_flag)
+		{
+			ft_printf("\033%s%-20s\033[0m", f->color, f->name);
+		}
+		(*k)++;
 	}
 }
 
@@ -57,9 +66,12 @@ void	print(t_ls *lsls)
 	t_lst *tmp_lst = ls->d->files;
 
 	k = (ls->d->next) ? 1 : 0;
+	int count = 0;
 
 	while (ls->d && ls->d->dir_name)
 	{
+		count = 0;
+		ft_printf("count %d\n", ls->d->count);
 		if (k)
 			ft_printf("%s:\n", ls->d->str_name);
 		if (ls->l_flag)
@@ -67,9 +79,11 @@ void	print(t_ls *lsls)
 		tmp_lst = ls->d->files;
 		while (ls->d->files)
 		{
-			print_info(ls, ls->d->files, ls->d->digits_max + 2);
+			print_info(ls, ls->d->files, ls->d->digits_max + 2, &count);
 			ls->d->files = ls->d->files->next;
 		}
+		if (--count % ls->col_flag != ls->col_flag - 1)
+			ft_putchar('\n');
 		ls->d->files = tmp_lst;
 		clear_dir(ls->d);
 		ls->d = ls->d->next;

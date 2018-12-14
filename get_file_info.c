@@ -33,7 +33,7 @@ char*	full_name(char *dname, char *fname)
 	return tmpname;
 }
 
-void	full_info(t_lst *file, char *dname, long *total, t_ls *ls, int *max)
+void	full_info(t_lst *file, char *dname, long *total, t_ls *ls, int *max, int *count)
 {
 	struct stat buf;
 
@@ -74,7 +74,10 @@ void	full_info(t_lst *file, char *dname, long *total, t_ls *ls, int *max)
 	file->time = ft_strsub(tmp, 4, 12);
 
 	if (file->name[0] != '.' || (ls->a_flag))
+	{
 		*total += buf.st_blocks;
+		(*count)++;
+	}
 
 	file->color = (ls->G_flag) ? get_color(file->type, file->rights) : "[0m";
 
@@ -87,12 +90,13 @@ long	get_files(t_dir *d, t_ls *ls)
 	long			total = 0;
 	int				max = 0;
 
+	d->count = 0;
 	if ((ls->dir = readdir(d->dir_name)))
 	{
 		d->files = (t_lst *)malloc(sizeof(t_lst));
 		d->files->name = ft_strdup(ls->dir->d_name);
 		d->files->type = ls->dir->d_type;
-		full_info(d->files, d->str_name, &total, ls, &max);
+		full_info(d->files, d->str_name, &total, ls, &max, &d->count);
 		d->files->next = NULL;
 		tmp_files = d->files;
 	}
@@ -101,7 +105,7 @@ long	get_files(t_dir *d, t_ls *ls)
 		d->files->next = (t_lst *)malloc(sizeof(t_lst));
 		d->files->next->name = ft_strdup(ls->dir->d_name);
 		d->files->next->type = ls->dir->d_type;
-		full_info(d->files->next, d->str_name, &total, ls, &max);
+		full_info(d->files->next, d->str_name, &total, ls, &max, &d->count);
 		d->files->next->next = NULL;
 		d->files = d->files->next;
 	}
