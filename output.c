@@ -18,7 +18,7 @@ void	print_type(t_lst* f)
 		ft_putchar('s');
 }
 
-void	print_info(t_ls *ls, t_lst* f, int width, int *k)
+void	print_info(t_ls *ls, t_lst* f, int width, int *k, int width_name)
 {
 	if (f->name[0] != '.' || (ls->a_flag))
 	{
@@ -37,7 +37,7 @@ void	print_info(t_ls *ls, t_lst* f, int width, int *k)
 		}
 		else if (ls->col_flag)
 		{
-			ft_printf("\033%s%-20s\033[0m", f->color, f->name);
+			ft_printf("\033%s%-*s\033[0m", f->color, width_name, f->name);
 		}
 		(*k)++;
 	}
@@ -79,10 +79,10 @@ void	print(t_ls *lsls)
 		tmp_lst = ls->d->files;
 		while (ls->d->files)
 		{
-			print_info(ls, ls->d->files, ls->d->digits_max + 2, &count);
+			print_info(ls, ls->d->files, ls->d->digits_max + 2, &count, ls->d->name_max + 8);
 			ls->d->files = ls->d->files->next;
 		}
-		if (--count % ls->col_flag != ls->col_flag - 1)
+		if ((ls->col_flag) && (--count % ls->col_flag != ls->col_flag - 1))
 			ft_putchar('\n');
 		ls->d->files = tmp_lst;
 		clear_dir(ls->d);
