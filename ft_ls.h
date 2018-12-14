@@ -51,6 +51,7 @@ typedef struct		s_ls
 	char			t_flag;
 
 	char			f_flag;
+	char			u_flag;
 	char			G_flag;
 	char			col_flag;
 

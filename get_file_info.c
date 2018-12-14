@@ -69,7 +69,7 @@ void	full_info(t_lst *file, char *dname, long *total, t_ls *ls, int *max, size_t
 	if (digits > *max)
 		*max = digits;
 
-	char *tmp = ctime(&buf.st_mtime);
+	char *tmp = (ls->u_flag) ? ctime(&buf.st_atime) : ctime(&buf.st_mtime);
 	file->mtime = buf.st_mtime;
 	file->time = ft_strsub(tmp, 4, 12);
 

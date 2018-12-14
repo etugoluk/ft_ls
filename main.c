@@ -12,6 +12,7 @@ void	init(t_ls *ls)
 	ls->t_flag = 0;
 	ls->f_flag = 0;
 	ls->G_flag = 0;
+	ls->u_flag = 0;
 	ls->col_flag = 0;
 }
 

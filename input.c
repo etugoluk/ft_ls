@@ -82,6 +82,8 @@ void	new_flag(char *str, t_ls *ls)
 			ls->t_flag = 1;
 		else if (str[i] == 'G')
 			ls->G_flag = 1;
+		else if (str[i] == 'u')
+			ls->u_flag = 1;
 		else if (str[i] == 'f')
 		{
 			ls->f_flag = 1;
