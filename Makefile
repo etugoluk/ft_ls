@@ -4,9 +4,10 @@ NAME = ft_ls
 SRCS = main.c \
 		flags.c \
 		input.c \
-		output.c \
-		sort_list.c \
 		get_file_info.c \
+		additional.c \
+		sort_list.c \
+		output.c \
 
 LIB = -L libft/ -lft
 OBJ = $(SRCS:.c=.o)
