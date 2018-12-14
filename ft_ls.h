@@ -72,30 +72,33 @@ typedef struct		s_ls
 
 }					t_ls;
 
-void	init(t_ls *ls);
+void				init(t_ls *ls);
 
-int		bonus_flag(char *str, t_ls *ls);
-int		set_flags(char *str, int i, t_ls *ls);
-void	new_flag(char *str, t_ls *ls);
+int					bonus_flag(char *str, t_ls *ls);
+int					set_flags(char *str, int i, t_ls *ls);
+void				new_flag(char *str, t_ls *ls);
 
-t_dir	*set_dir(t_ls *ls, char *str);
-void	new_dir(char *str, t_ls *ls);
-void	recursive(t_lst *files, t_ls *ls, char *dname);
+t_dir				*set_dir(t_ls *ls, char *str);
+void				new_dir(char *str, t_ls *ls);
+void				recursive(t_lst *files, t_ls *ls, char *dname);
 
-void	get_files(t_dir *d, t_ls *ls);
-void	full_info(t_lst *file, t_dir *d, t_ls *ls);
-char	*full_name(char *dname, char *fname);
+void				get_files(t_dir *d, t_ls *ls);
+void				full_info(t_lst *file, t_dir *d, t_ls *ls);
+char				*full_name(char *dname, char *fname);
 
-void	write_to_list(t_ls *ls);
+void				write_to_list(t_ls *ls);
 
-int		asc(t_lst *l1, t_lst *l2);
-int		desc(t_lst *l1, t_lst *l2);
-int		desc_time(t_lst *l1, t_lst *l2);
+int					asc(t_lst *l1, t_lst *l2);
+int					desc(t_lst *l1, t_lst *l2);
+int					desc_time(t_lst *l1, t_lst *l2);
+void				clear_dir(t_dir *d);
 
-void	swap1(t_lst *l1, t_lst *l2);
-void	swap2(t_lst *l1, t_lst *l2);
-void	sort_list(t_lst	*list, int (*cmp)(t_lst*, t_lst*));
+void				swap1(t_lst *l1, t_lst *l2);
+void				swap2(t_lst *l1, t_lst *l2);
+void				sort_list(t_lst	*list, int (*cmp)(t_lst*, t_lst*));
 
-void	print(t_ls *ls);
+void				print(t_ls *ls);
+void				print_info(t_ls *ls, t_lst *f, t_dir *d, int *k);
+void				print_type(t_lst *f);
 
 #endif
