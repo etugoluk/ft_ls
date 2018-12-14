@@ -50,7 +50,7 @@ t_dir	*set_dir(t_ls *ls, char *str)
 		return (d);
 	}
 	d->str_name = ft_strdup(str);
-	d->block_size = get_files(d, ls);
+	get_files(d, ls);
 	d->next = NULL;
 	return (d);
 }

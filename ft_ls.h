@@ -78,12 +78,15 @@ int		bonus_flag(char *str, t_ls *ls);
 int		set_flags(char *str, int i, t_ls *ls);
 void	new_flag(char *str, t_ls *ls);
 
+t_dir	*set_dir(t_ls *ls, char *str);
 void	new_dir(char *str, t_ls *ls);
-void	write_to_list(t_ls *ls);
+void	recursive(t_lst *files, t_ls *ls, char *dname);
 
-long	get_files(t_dir *d, t_ls *ls);
-void	full_info(t_lst *file, char *dname, long *total, t_ls *ls, int *max, size_t *max_name, int *count);
+void	get_files(t_dir *d, t_ls *ls);
+void	full_info(t_lst *file, t_dir *d, t_ls *ls);
 char*	full_name(char *dname, char *fname);
+
+void	write_to_list(t_ls *ls);
 
 int		asc(t_lst *l1, t_lst *l2);
 int		desc(t_lst *l1, t_lst *l2);
