@@ -2,6 +2,7 @@
 NAME = ft_ls
 
 SRCS = main.c \
+		flags.c \
 		input.c \
 		output.c \
 		sort_list.c \

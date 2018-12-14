@@ -1,18 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   input.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: etugoluk <etugoluk@student.unit.ua>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/12/14 17:52:35 by etugoluk          #+#    #+#             */
+/*   Updated: 2018/12/14 17:52:35 by etugoluk         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_ls.h"
 
-void	recursive(t_lst	*files, t_ls *ls, char *dname)
+void	recursive(t_lst *files, t_ls *ls, char *dname)
 {
-	t_lst	*tmp = files;
+	t_lst	*tmp;
+	char	*tmpname;
+
+	tmp = files;
 	while (files)
 	{
-		if (files->type == 4 && ft_strcmp(files->name,".") && ft_strcmp(files->name,".."))
+		if (files->type == 4 && ft_strcmp(files->name, ".") &&
+			ft_strcmp(files->name, ".."))
 		{
 			if (files->name[0] == '.' && !ls->a_flag)
 			{
 				files = files->next;
 				continue;
 			}
-			char *tmpname = full_name(dname, files->name);
+			tmpname = full_name(dname, files->name);
 			new_dir(tmpname, ls);
 			free(tmpname);
 		}
@@ -21,95 +37,44 @@ void	recursive(t_lst	*files, t_ls *ls, char *dname)
 	files = tmp;
 }
 
+t_dir	*set_dir(t_ls *ls, char *str)
+{
+	t_dir *d;
+
+	d = (t_dir *)malloc(sizeof(t_dir));
+	if (!(d->dir_name = opendir(str)))
+	{
+		ft_printf("ft_ls: %s: %s\n", str, strerror(errno));
+		free(d);
+		d = NULL;
+		return (d);
+	}
+	d->str_name = ft_strdup(str);
+	d->block_size = get_files(d, ls);
+	d->next = NULL;
+	return (d);
+}
+
 void	new_dir(char *str, t_ls *ls)
 {
+	struct s_dir *tmp;
+
 	if (!ls->d)
 	{
-		ls->d = (t_dir *)malloc(sizeof(t_dir));
-		if (!(ls->d->dir_name = opendir(str)))
-		{
-			ft_printf("ft_ls: %s: %s\n", str, strerror(errno));
-			free(ls->d);
-			ls->d = NULL;
+		if (!(ls->d = set_dir(ls, str)))
 			return ;
-		}
-		ls->d->str_name = ft_strdup(str);
-		ls->d->block_size = get_files(ls->d, ls);
-		ls->d->next = NULL;
 		if (ls->R_flag)
 			recursive(ls->d->files, ls, ls->d->str_name);
 		closedir(ls->d->dir_name);
 		return ;
 	}
-	struct s_dir *tmp = ls->d;
+	tmp = ls->d;
 	while (ls->d->next)
 		ls->d = ls->d->next;
-	ls->d->next = (t_dir *)malloc(sizeof(t_dir));
-	if (!(ls->d->next->dir_name = opendir(str)))
-	{
-		ft_printf("ft_ls: %s: %s\n", str, strerror(errno));
-		free(ls->d->next);
-		ls->d->next = NULL;
+	if (!(ls->d->next = set_dir(ls, str)))
 		return ;
-	}
-	ls->d->next->str_name = ft_strdup(str);
-	ls->d->next->block_size = get_files(ls->d->next, ls);
-	ls->d->next->next = NULL;
 	if (ls->R_flag)
 		recursive(ls->d->next->files, ls, ls->d->next->str_name);
 	closedir(ls->d->next->dir_name);
 	ls->d = tmp;
-}
-
-void	new_flag(char *str, t_ls *ls)
-{
-	int i;
-
-	i = 1;
-
-	if (!ft_strcmp(str, "--dir"))
-	{
-		ls->dir_flag = 1;
-		return ;
-	}
-	else if (!ft_strcmp(str, "--reg"))
-	{
-		ls->reg_flag = 1;
-		return ;
-	}
-	else if (!ft_strcmp(str, "--link"))
-	{
-		ls->link_flag = 1;
-		return ;
-	}
-	while (str[i])
-	{
-		if ((str[i] > 48) && (str[i] < 53) && (!ft_strchr(str,'l')))
-			ls->col_flag = str[i] - 48;
-		else if (str[i] == 'l')
-			ls->l_flag = 1;
-		else if (str[i] == 'R')
-			ls->R_flag = 1;
-		else if (str[i] == 'a')
-			ls->a_flag = 1;
-		else if (str[i] == 'r')
-			ls->r_flag = 1;
-		else if (str[i] == 't')
-			ls->t_flag = 1;
-		else if (str[i] == 'G')
-			ls->G_flag = 1;
-		else if (str[i] == 'u')
-			ls->u_flag = 1;
-		else if (str[i] == 'f')
-		{
-			ls->f_flag = 1;
-			ls->a_flag = 1;
-		}
-		else
-		{
-			ft_printf("usage: ls [-afGlrRt] [file ...]\n");
-			return ;
-		}
-		i++;
-	}
 }

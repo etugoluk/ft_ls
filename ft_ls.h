@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_ls.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: etugoluk <etugoluk@student.unit.ua>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/12/14 17:52:06 by etugoluk          #+#    #+#             */
+/*   Updated: 2018/12/14 17:52:12 by etugoluk         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FT_LS_H
 # define FT_LS_H
 
@@ -62,8 +74,11 @@ typedef struct		s_ls
 
 void	init(t_ls *ls);
 
-void	new_dir(char *str, t_ls *ls);
+int		bonus_flag(char *str, t_ls *ls);
+int		set_flags(char *str, int i, t_ls *ls);
 void	new_flag(char *str, t_ls *ls);
+
+void	new_dir(char *str, t_ls *ls);
 void	write_to_list(t_ls *ls);
 
 long	get_files(t_dir *d, t_ls *ls);
