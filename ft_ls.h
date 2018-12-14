@@ -54,6 +54,9 @@ typedef struct		s_ls
 	char			u_flag;
 	char			G_flag;
 	char			col_flag;
+	char			reg_flag;
+	char			dir_flag;
+	char			link_flag;
 
 }					t_ls;
 

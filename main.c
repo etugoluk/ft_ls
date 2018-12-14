@@ -14,6 +14,10 @@ void	init(t_ls *ls)
 	ls->G_flag = 0;
 	ls->u_flag = 0;
 	ls->col_flag = 0;
+
+	ls->reg_flag = 0;
+	ls->dir_flag = 0;
+	ls->link_flag = 0;
 }
 
 int		main(int argc, char **argv)

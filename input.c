@@ -66,6 +66,22 @@ void	new_flag(char *str, t_ls *ls)
 	int i;
 
 	i = 1;
+
+	if (!ft_strcmp(str, "--dir"))
+	{
+		ls->dir_flag = 1;
+		return ;
+	}
+	else if (!ft_strcmp(str, "--reg"))
+	{
+		ls->reg_flag = 1;
+		return ;
+	}
+	else if (!ft_strcmp(str, "--link"))
+	{
+		ls->link_flag = 1;
+		return ;
+	}
 	while (str[i])
 	{
 		if ((str[i] > 48) && (str[i] < 53) && (!ft_strchr(str,'l')))

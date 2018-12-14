@@ -20,6 +20,12 @@ void	print_type(t_lst* f)
 
 void	print_info(t_ls *ls, t_lst* f, int width, int *k, int width_name)
 {
+	if (ls->dir_flag && f->type != DT_DIR)
+		return ;
+	if (ls->reg_flag && f->type != DT_REG)
+		return ;
+	if (ls->link_flag && f->type != DT_LNK)
+		return ;
 	if (f->name[0] != '.' || (ls->a_flag))
 	{
 		if (ls->l_flag)
@@ -71,7 +77,6 @@ void	print(t_ls *lsls)
 	while (ls->d && ls->d->dir_name)
 	{
 		count = 0;
-		ft_printf("count %d\n", ls->d->count);
 		if (k)
 			ft_printf("%s:\n", ls->d->str_name);
 		if (ls->l_flag)
