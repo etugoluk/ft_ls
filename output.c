@@ -12,7 +12,7 @@
 
 #include "ft_ls.h"
 
-void	print_type(t_lst* f)
+void	print_type(t_lst *f)
 {
 	if (f->type == DT_BLK)
 		ft_putchar('b');
@@ -21,7 +21,7 @@ void	print_type(t_lst* f)
 	else if (f->type == DT_DIR)
 		ft_putchar('d');
 	else if (f->type == DT_FIFO)
-		ft_putchar('p');	
+		ft_putchar('p');
 	else if (f->type == DT_LNK)
 		ft_putchar('l');
 	else if (f->type == DT_REG)
@@ -30,8 +30,10 @@ void	print_type(t_lst* f)
 		ft_putchar('s');
 }
 
-void	print_info(t_ls *ls, t_lst* f, int width, int *k, int width_name)
+void	print_info(t_ls *ls, t_lst *f, t_dir *d, int *k)
 {
+	int tmp_arg;
+
 	if (ls->dir_flag && f->type != DT_DIR)
 		return ;
 	if (ls->reg_flag && f->type != DT_REG)
@@ -42,21 +44,16 @@ void	print_info(t_ls *ls, t_lst* f, int width, int *k, int width_name)
 	{
 		if (ls->l_flag)
 		{
-			int tmp_arg = (f->rights[9]) > 0 ? 2 : 3;
-
+			tmp_arg = (f->rights[9]) > 0 ? 2 : 3;
 			print_type(f);
 			ft_printf("%s %*ld %s  %s%*lld %s ", f->rights, tmp_arg, f->links,
-				f->pw_name, f->gr_name, width, f->size, f->time);
+				f->pw_name, f->gr_name, d->digits_max + 2, f->size, f->time);
 		}
 		if ((!ls->col_flag) ||
 			((ls->col_flag) && (*k % ls->col_flag == ls->col_flag - 1)))
-		{
 			ft_printf("\033%s%s\n\033[0m", f->color, f->name);
-		}
 		else if (ls->col_flag)
-		{
-			ft_printf("\033%s%-*s\033[0m", f->color, width_name, f->name);
-		}
+			ft_printf("\033%s%-*s\033[0m", f->color, d->name_max + 8, f->name);
 		(*k)++;
 	}
 }
@@ -64,7 +61,6 @@ void	print_info(t_ls *ls, t_lst* f, int width, int *k, int width_name)
 void	clear_dir(t_dir *d)
 {
 	free(d->str_name);
-
 	while (d->files)
 	{
 		free(d->files->name);
@@ -77,15 +73,16 @@ void	clear_dir(t_dir *d)
 
 void	print(t_ls *lsls)
 {
-	int k;
+	int		k;
+	t_ls	*ls;
+	t_dir	*tmp_dir;
+	t_lst	*tmp_lst;
+	int		count;
 
-	t_ls *ls = lsls;
-	t_dir *tmp_dir = ls->d;
-	t_lst *tmp_lst = ls->d->files;
-
+	ls = lsls;
+	tmp_dir = ls->d;
+	tmp_lst = ls->d->files;
 	k = (ls->d->next) ? 1 : 0;
-	int count = 0;
-
 	while (ls->d && ls->d->dir_name)
 	{
 		count = 0;
@@ -96,7 +93,7 @@ void	print(t_ls *lsls)
 		tmp_lst = ls->d->files;
 		while (ls->d->files)
 		{
-			print_info(ls, ls->d->files, ls->d->digits_max + 2, &count, ls->d->name_max + 8);
+			print_info(ls, ls->d->files, ls->d, &count);
 			ls->d->files = ls->d->files->next;
 		}
 		if ((ls->col_flag) && (--count % ls->col_flag != ls->col_flag - 1))
@@ -105,7 +102,7 @@ void	print(t_ls *lsls)
 		clear_dir(ls->d);
 		ls->d = ls->d->next;
 		if (ls->d)
-			ft_printf("\n");
+			ft_putchar('\n');
 	}
 	ls->d = tmp_dir;
 	ls->d->files = tmp_lst;

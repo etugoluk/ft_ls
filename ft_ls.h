@@ -13,22 +13,22 @@
 #ifndef FT_LS_H
 # define FT_LS_H
 
-#include "libft/libft.h"
-#include <unistd.h>
-#include <errno.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/xattr.h>
-#include <sys/acl.h>
-#include <dirent.h>
-#include <pwd.h>
-#include <grp.h>
+# include "libft/libft.h"
+# include <unistd.h>
+# include <errno.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <sys/xattr.h>
+# include <sys/acl.h>
+# include <dirent.h>
+# include <pwd.h>
+# include <grp.h>
 
 typedef struct		s_lst
 {
 	char			*name;
 	char			type;
-	char			rights[11]; // type and rights of file
+	char			rights[11];
 	long			links;
 	char			*pw_name;
 	char			*gr_name;
@@ -43,7 +43,7 @@ typedef struct		s_dir
 {
 	DIR				*dir_name;
 	char			*str_name;
-	struct s_lst	*files; //list of files and directories which we should print
+	struct s_lst	*files;
 	long			block_size;
 	int				digits_max;
 	size_t			name_max;
@@ -53,7 +53,7 @@ typedef struct		s_dir
 
 typedef struct		s_ls
 {
-	struct s_dir	*d;    //list of directories
+	struct s_dir	*d;
 	struct dirent	*dir;
 
 	char			l_flag;
@@ -84,7 +84,7 @@ void	recursive(t_lst *files, t_ls *ls, char *dname);
 
 void	get_files(t_dir *d, t_ls *ls);
 void	full_info(t_lst *file, t_dir *d, t_ls *ls);
-char*	full_name(char *dname, char *fname);
+char	*full_name(char *dname, char *fname);
 
 void	write_to_list(t_ls *ls);
 
