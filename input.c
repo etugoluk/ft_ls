@@ -12,10 +12,9 @@
 
 #include "ft_ls.h"
 
-void	recursive(t_lst *files, t_ls *ls, char *dname)
+void	recursive(t_lst *files, t_ls *ls)
 {
 	t_lst	*tmp;
-	char	*tmpname;
 
 	tmp = files;
 	while (files)
@@ -28,9 +27,7 @@ void	recursive(t_lst *files, t_ls *ls, char *dname)
 				files = files->next;
 				continue;
 			}
-			tmpname = full_name(dname, files->name);
-			new_dir(tmpname, ls);
-			free(tmpname);
+			new_dir(files->full_name, ls);
 		}
 		files = files->next;
 	}
@@ -64,7 +61,7 @@ void	new_dir(char *str, t_ls *ls)
 		if (!(ls->d = set_dir(ls, str)))
 			return ;
 		if (ls->R_flag)
-			recursive(ls->d->files, ls, ls->d->str_name);
+			recursive(ls->d->files, ls);
 		closedir(ls->d->dir_name);
 		return ;
 	}
@@ -74,7 +71,7 @@ void	new_dir(char *str, t_ls *ls)
 	if (!(ls->d->next = set_dir(ls, str)))
 		return ;
 	if (ls->R_flag)
-		recursive(ls->d->next->files, ls, ls->d->next->str_name);
+		recursive(ls->d->next->files, ls);
 	closedir(ls->d->next->dir_name);
 	ls->d = tmp;
 }

@@ -27,6 +27,7 @@
 typedef struct		s_lst
 {
 	char			*name;
+	char			*full_name;
 	char			type;
 	char			rights[11];
 	long			links;
@@ -80,11 +81,13 @@ void				new_flag(char *str, t_ls *ls);
 
 t_dir				*set_dir(t_ls *ls, char *str);
 void				new_dir(char *str, t_ls *ls);
-void				recursive(t_lst *files, t_ls *ls, char *dname);
+void				recursive(t_lst *files, t_ls *ls);
 
 void				get_files(t_dir *d, t_ls *ls);
 void				full_info(t_lst *file, t_dir *d, t_ls *ls);
+void				set_rights(t_lst *file, struct stat buf);
 char				*full_name(char *dname, char *fname);
+char				*get_color(char type, char *rights);
 
 void				write_to_list(t_ls *ls);
 
@@ -93,12 +96,12 @@ int					desc(t_lst *l1, t_lst *l2);
 int					desc_time(t_lst *l1, t_lst *l2);
 void				clear_dir(t_dir *d);
 
-void				swap1(t_lst *l1, t_lst *l2);
+void				swap1(t_lst *l1, t_lst *l2, char* fname);
 void				swap2(t_lst *l1, t_lst *l2);
 void				sort_list(t_lst	*list, int (*cmp)(t_lst*, t_lst*));
 
 void				print(t_ls *ls);
 void				print_info(t_ls *ls, t_lst *f, t_dir *d, int *k);
-void				print_type(t_lst *f);
+void				print_long(t_lst *f, int digits);
 
 #endif

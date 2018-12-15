@@ -49,7 +49,7 @@ char	*full_name(char *dname, char *fname)
 	return (tmpname);
 }
 
-void	set_rights(t_lst *file, char *tmpname, struct stat buf)
+void	set_rights(t_lst *file, struct stat buf)
 {
 	struct passwd	*pw;
 	struct group	*gr;
@@ -63,8 +63,8 @@ void	set_rights(t_lst *file, char *tmpname, struct stat buf)
 	file->rights[6] = (buf.st_mode & S_IROTH) ? 'r' : '-';
 	file->rights[7] = (buf.st_mode & S_IWOTH) ? 'w' : '-';
 	file->rights[8] = (buf.st_mode & S_IXOTH) ? 'x' : '-';
-	file->rights[9] = (listxattr(tmpname, NULL, 0, XATTR_NOFOLLOW)) ?
-						'@' : '\0';
+	file->rights[9] = (listxattr(file->full_name, NULL, 0,
+						XATTR_NOFOLLOW)) ? '@' : '\0';
 	file->rights[10] = '\0';
 	file->links = buf.st_nlink;
 	pw = getpwuid(buf.st_uid);
@@ -77,14 +77,13 @@ void	set_rights(t_lst *file, char *tmpname, struct stat buf)
 void	full_info(t_lst *file, t_dir *d, t_ls *ls)
 {
 	struct stat		buf;
-	char			*tmpname;
 	int				digits;
 	char			*tmp;
 	size_t			size_name;
 
-	tmpname = full_name(d->str_name, file->name);
-	stat(tmpname, &buf);
-	set_rights(file, tmpname, buf);
+	file->full_name = full_name(d->str_name, file->name);
+	stat(file->full_name, &buf);
+	set_rights(file, buf);
 	digits = digitsu(file->size);
 	if (digits > d->digits_max)
 		d->digits_max = digits;
@@ -100,7 +99,6 @@ void	full_info(t_lst *file, t_dir *d, t_ls *ls)
 	size_name = ft_strlen(file->name);
 	if (size_name > d->name_max)
 		d->name_max = size_name;
-	free(tmpname);
 }
 
 void	get_files(t_dir *d, t_ls *ls)
