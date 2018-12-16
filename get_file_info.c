@@ -69,8 +69,8 @@ void	set_rights(t_lst *file, char *tmpname, struct stat buf)
 	file->links = buf.st_nlink;
 	pw = getpwuid(buf.st_uid);
 	gr = getgrgid(buf.st_gid);
-	file->pw_name = (pw) ? pw->pw_name : NULL;
-	file->gr_name = (gr) ? gr->gr_name : NULL;
+	file->pw_name = (pw) ? ft_strdup(pw->pw_name) : NULL;
+	file->gr_name = (gr) ? ft_strdup(gr->gr_name) : NULL;
 	file->size = buf.st_size;
 }
 
