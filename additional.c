@@ -34,6 +34,7 @@ void	clear_dir(t_dir *d)
 	while (d->files)
 	{
 		free(d->files->name);
+		free(d->files->full_name);
 		free(d->files->pw_name);
 		free(d->files->gr_name);
 		free(d->files->time);

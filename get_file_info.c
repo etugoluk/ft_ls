@@ -101,19 +101,19 @@ void	set_max(t_lst *file, t_dir *d, struct stat buf)
 void	full_info(t_lst *file, t_dir *d, t_ls *ls)
 {
 	struct stat		buf;
-	char			*tmpname;
+	// char			*tmpname;
 	char			*tmp;
 
-	tmpname = full_name(d->str_name, file->name);
-	stat(tmpname, &buf);
-	set_rights(file, tmpname, buf);
+	file->full_name = full_name(d->str_name, file->name);
+	stat(file->full_name, &buf);
+	set_rights(file, file->full_name, buf);
 	tmp = (ls->u_flag) ? ctime(&buf.st_atime) : ctime(&buf.st_mtime);
 	file->mtime = buf.st_mtime;
 	file->time = ft_strsub(tmp, 4, 12);
 	file->color = (ls->G_flag) ? get_color(file->type, file->rights) : "[0m";
 	if (file->name[0] != '.' || (ls->a_flag))
 		set_max(file, d, buf);
-	free(tmpname);
+	// free(tmpname);
 }
 
 void	get_files(t_dir *d, t_ls *ls)

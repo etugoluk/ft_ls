@@ -12,8 +12,10 @@
 
 #include "ft_ls.h"
 
-void	print_type(t_lst *f)
+void	print_long(t_lst *f, t_dir *d, t_ls *ls)
 {
+	char	linkname[256];
+
 	if (f->type == DT_BLK)
 		ft_putchar('b');
 	else if (f->type == DT_CHR)
@@ -28,6 +30,18 @@ void	print_type(t_lst *f)
 		ft_putchar('-');
 	else if (f->type == DT_SOCK)
 		ft_putchar('s');
+	ft_printf("%-11s%*ld %-*s  %-*s%*lld %s ", f->rights, d->link_max, f->links,
+		d->pw_max, f->pw_name, d->gr_max, f->gr_name, d->digits_max + 2, f->size, f->time);
+	if (ls->G_flag)
+		ft_printf("\033%s%s\033[0m", f->color, f->name);
+	else
+		ft_printf("%s", f->name);
+	if (f->type == DT_LNK)
+	{
+		readlink(f->full_name, linkname, 256);
+		ft_printf(" -> %s", linkname);
+	}
+	ft_putchar('\n');
 }
 
 void	print_info(t_ls *ls, t_lst *f, t_dir *d, int *k)
@@ -39,20 +53,19 @@ void	print_info(t_ls *ls, t_lst *f, t_dir *d, int *k)
 	if (f->name[0] != '.' || (ls->a_flag))
 	{
 		if (ls->l_flag)
+			print_long(f, d, ls);
+		else
 		{
-			print_type(f);
-			ft_printf("%-11s%*ld %-*s  %-*s%*lld %s ", f->rights, d->link_max, f->links,
-				d->pw_max, f->pw_name, d->gr_max, f->gr_name, d->digits_max + 2, f->size, f->time);
+			if (ls->G_flag)
+				ft_printf("\033%s", f->color);
+			if ((!ls->col_flag) ||
+				((ls->col_flag) && (*k % ls->col_flag == ls->col_flag - 1)))
+				ft_printf("%s\n", f->name);
+			else if (ls->col_flag)
+				ft_printf("%-*s", f->color, d->name_max + 8, f->name);
+			if (ls->G_flag)
+				ft_printf("\033[0m");
 		}
-		if (ls->G_flag)
-			ft_printf("\033%s", f->color);
-		if ((!ls->col_flag) ||
-			((ls->col_flag) && (*k % ls->col_flag == ls->col_flag - 1)))
-			ft_printf("%s\n", f->name);
-		else if (ls->col_flag)
-			ft_printf("%-*s", f->color, d->name_max + 8, f->name);
-		if (ls->G_flag)
-			ft_printf("\033[0m");
 		(*k)++;
 	}
 }

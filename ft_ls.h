@@ -27,6 +27,7 @@
 typedef struct		s_lst
 {
 	char			*name;
+	char			*full_name;
 	char			type;
 	char			rights[11];
 	long			links;
@@ -104,6 +105,6 @@ void				sort_list(t_lst	*list, int (*cmp)(t_lst*, t_lst*));
 
 void				print(t_ls *ls);
 void				print_info(t_ls *ls, t_lst *f, t_dir *d, int *k);
-void				print_type(t_lst *f);
+void				print_long(t_lst *f, t_dir *d, t_ls *ls);
 
 #endif
