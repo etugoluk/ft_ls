@@ -49,7 +49,7 @@ char	*full_name(char *dname, char *fname)
 	return (tmpname);
 }
 
-void	set_rights(t_lst *file, struct stat buf)
+void	set_rights(t_lst *file, char *tmpname, struct stat buf)
 {
 	struct passwd	*pw;
 	struct group	*gr;
@@ -63,8 +63,8 @@ void	set_rights(t_lst *file, struct stat buf)
 	file->rights[6] = (buf.st_mode & S_IROTH) ? 'r' : '-';
 	file->rights[7] = (buf.st_mode & S_IWOTH) ? 'w' : '-';
 	file->rights[8] = (buf.st_mode & S_IXOTH) ? 'x' : '-';
-	file->rights[9] = (listxattr(file->full_name, NULL, 0,
-						XATTR_NOFOLLOW)) ? '@' : '\0';
+	file->rights[9] = (listxattr(tmpname, NULL, 0, XATTR_NOFOLLOW)) ?
+						'@' : '\0';
 	file->rights[10] = '\0';
 	file->links = buf.st_nlink;
 	pw = getpwuid(buf.st_uid);
@@ -74,31 +74,46 @@ void	set_rights(t_lst *file, struct stat buf)
 	file->size = buf.st_size;
 }
 
-void	full_info(t_lst *file, t_dir *d, t_ls *ls)
+void	set_max(t_lst *file, t_dir *d, struct stat buf)
 {
-	struct stat		buf;
 	int				digits;
-	char			*tmp;
 	size_t			size_name;
 
-	file->full_name = full_name(d->str_name, file->name);
-	stat(file->full_name, &buf);
-	set_rights(file, buf);
 	digits = digitsu(file->size);
 	if (digits > d->digits_max)
 		d->digits_max = digits;
-	tmp = (ls->u_flag) ? ctime(&buf.st_atime) : ctime(&buf.st_mtime);
-	file->mtime = buf.st_mtime;
-	file->time = ft_strsub(tmp, 4, 12);
-	if (file->name[0] != '.' || (ls->a_flag))
-	{
-		d->block_size += buf.st_blocks;
-		d->count++;
-	}
-	file->color = (ls->G_flag) ? get_color(file->type, file->rights) : "[0m";
+	digits = digitsu(file->links);
+	if (digits > d->link_max)
+		d->link_max = digits;
+	d->block_size += buf.st_blocks;
+	d->count++;
 	size_name = ft_strlen(file->name);
 	if (size_name > d->name_max)
 		d->name_max = size_name;
+	size_name = ft_strlen(file->pw_name);
+	if (size_name > d->pw_max)
+		d->pw_max = size_name;
+	size_name = ft_strlen(file->gr_name);
+	if (size_name > d->gr_max)
+		d->gr_max = size_name;
+}
+
+void	full_info(t_lst *file, t_dir *d, t_ls *ls)
+{
+	struct stat		buf;
+	char			*tmpname;
+	char			*tmp;
+
+	tmpname = full_name(d->str_name, file->name);
+	stat(tmpname, &buf);
+	set_rights(file, tmpname, buf);
+	tmp = (ls->u_flag) ? ctime(&buf.st_atime) : ctime(&buf.st_mtime);
+	file->mtime = buf.st_mtime;
+	file->time = ft_strsub(tmp, 4, 12);
+	file->color = (ls->G_flag) ? get_color(file->type, file->rights) : "[0m";
+	if (file->name[0] != '.' || (ls->a_flag))
+		set_max(file, d, buf);
+	free(tmpname);
 }
 
 void	get_files(t_dir *d, t_ls *ls)
@@ -106,8 +121,11 @@ void	get_files(t_dir *d, t_ls *ls)
 	struct s_lst	*tmp_files;
 
 	d->block_size = 0;
-	d->name_max = 0;
-	d->digits_max = 0;
+	d->name_max = 1;
+	d->digits_max = 1;
+	d->link_max = 1;
+	d->pw_max = 1;
+	d->gr_max = 1;
 	d->count = 0;
 	if ((ls->dir = readdir(d->dir_name)))
 	{

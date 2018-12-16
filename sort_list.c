@@ -12,7 +12,7 @@
 
 #include "ft_ls.h"
 
-void	swap1(t_lst *l1, t_lst *l2, char* fname)
+void	swap1(t_lst *l1, t_lst *l2)
 {
 	char		*name;
 	char		type;
@@ -23,9 +23,6 @@ void	swap1(t_lst *l1, t_lst *l2, char* fname)
 	name = l1->name;
 	l1->name = l2->name;
 	l2->name = name;
-	fname = l1->full_name;
-	l1->full_name = l2->full_name;
-	l2->full_name = fname;
 	type = l1->type;
 	l1->type = l2->type;
 	l2->type = type;
@@ -74,7 +71,7 @@ void	sort_list(t_lst *list, int (*cmp)(t_lst *, t_lst *))
 	{
 		if (cmp(list, list->next) == 1)
 		{
-			swap1(list, list->next, NULL);
+			swap1(list, list->next);
 			swap2(list, list->next);
 			list = tmp;
 		}
