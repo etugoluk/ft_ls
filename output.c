@@ -25,7 +25,11 @@ void	print_long(t_lst *f, t_dir *d, t_ls *ls)
 	else if (f->type == DT_FIFO)
 		ft_putchar('p');
 	else if (f->type == DT_LNK)
+	{
+		f->links = readlink(f->full_name, linkname, 256);
+		// ft_printf("links: %d\n", f->links);
 		ft_putchar('l');
+	}
 	else if (f->type == DT_REG)
 		ft_putchar('-');
 	else if (f->type == DT_SOCK)
@@ -37,10 +41,7 @@ void	print_long(t_lst *f, t_dir *d, t_ls *ls)
 	else
 		ft_printf("%s", f->name);
 	if (f->type == DT_LNK)
-	{
-		readlink(f->full_name, linkname, 256);
 		ft_printf(" -> %s", linkname);
-	}
 	ft_putchar('\n');
 }
 

@@ -15,6 +15,7 @@
 void	swap1(t_lst *l1, t_lst *l2)
 {
 	char		*name;
+	char		*fullname;
 	char		type;
 	char		rights[11];
 	long		links;
@@ -23,6 +24,9 @@ void	swap1(t_lst *l1, t_lst *l2)
 	name = l1->name;
 	l1->name = l2->name;
 	l2->name = name;
+	fullname = l1->full_name;
+	l1->full_name = l2->full_name;
+	l2->full_name = fullname;
 	type = l1->type;
 	l1->type = l2->type;
 	l2->type = type;
