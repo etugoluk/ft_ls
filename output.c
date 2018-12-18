@@ -63,7 +63,7 @@ void	print_info(t_ls *ls, t_lst *f, t_dir *d, int *k)
 				((ls->col_flag) && (*k % ls->col_flag == ls->col_flag - 1)))
 				ft_printf("%s\n", f->name);
 			else if (ls->col_flag)
-				ft_printf("%-*s", f->color, d->name_max + 8, f->name);
+				ft_printf("%-*s", d->name_max + 8, f->name);
 			if (ls->G_flag)
 				ft_printf("\033[0m");
 		}
