@@ -99,7 +99,7 @@ void	print(t_ls *lsls)
 		if ((ls->col_flag) && (--count % ls->col_flag != ls->col_flag - 1))
 			ft_putchar('\n');
 		ls->d->files = tmp_lst;
-		clear_dir(ls->d);
+		clear_dir(ls->d); //seg fault
 		ls->d = ls->d->next;
 		if (ls->d)
 			ft_putchar('\n');

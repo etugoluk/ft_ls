@@ -105,7 +105,8 @@ void	full_info(t_lst *file, t_dir *d, t_ls *ls)
 	char			*tmp;
 
 	file->full_name = full_name(d->str_name, file->name);
-	stat(file->full_name, &buf);
+	printf("%s\n", file->full_name);
+	lstat(file->full_name, &buf);
 	set_rights(file, file->full_name, buf);
 	tmp = (ls->u_flag) ? ctime(&buf.st_atime) : ctime(&buf.st_mtime);
 	file->mtime = buf.st_mtime;
