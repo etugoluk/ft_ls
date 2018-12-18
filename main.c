@@ -51,6 +51,7 @@ int			main(int argc, char **argv)
 	else if (!ls.f_flag)
 		(ls.r_flag) ? sort_list(ls.d->files, asc) :
 					sort_list(ls.d->files, desc);
+
 	print(&ls);
 	// system("leaks ft_ls");
 	return (0);

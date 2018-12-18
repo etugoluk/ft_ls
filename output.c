@@ -26,8 +26,7 @@ void	print_long(t_lst *f, t_dir *d, t_ls *ls)
 		ft_putchar('p');
 	else if (f->type == DT_LNK)
 	{
-		f->links = readlink(f->full_name, linkname, 256);
-		// ft_printf("links: %d\n", f->links);
+		readlink(f->full_name, linkname, 256);
 		ft_putchar('l');
 	}
 	else if (f->type == DT_REG)
